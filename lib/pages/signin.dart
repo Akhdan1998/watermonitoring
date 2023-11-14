@@ -1,14 +1,16 @@
 part of 'pages.dart';
 
-class signup extends StatefulWidget {
-  const signup({super.key});
+class signin extends StatefulWidget {
+  const signin({super.key});
 
   @override
-  State<signup> createState() => _signupState();
+  State<signin> createState() => _signinState();
 }
 
-class _signupState extends State<signup> {
+class _signinState extends State<signin> {
   bool _obsecureText = true;
+  bool isCheked1 = true;
+  bool isCheked2 = false;
   bool value = true;
   final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: GoogleFonts.poppins().copyWith(fontSize: 14),
@@ -57,8 +59,8 @@ class _signupState extends State<signup> {
                       top: 80,
                       left: 200,
                       child: Container(
-                          // color: Colors.red,
-                          // width: MediaQuery.of(context).size.width - 500,
+                        // color: Colors.red,
+                        // width: MediaQuery.of(context).size.width - 500,
                           height: MediaQuery.of(context).size.height - 200,
                           child: Image.asset('assets/waste.png'))),
                 ],
@@ -91,12 +93,12 @@ class _signupState extends State<signup> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Register',
+                          'Login',
                           style: GoogleFonts.poppins().copyWith(
                               color: '444444'.toColor(), fontSize: 18),
                         ),
                         Container(
-                          width: 75,
+                          width: 50,
                           child: Divider(
                             height: 0,
                             thickness: 2,
@@ -104,100 +106,23 @@ class _signupState extends State<signup> {
                           ),
                         ),
                         SizedBox(height: 32),
-                        Container(
-                          width: 400,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Nama Depan',
-                                    style: GoogleFonts.poppins().copyWith(
-                                        color: '444444'.toColor(),
-                                        fontSize: 14),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    height: 30,
-                                    width: 180,
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            bottom: 5, left: 10),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: 'AAAAAA'.toColor(),
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: 'AAAAAA'.toColor(),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Nama Belakang',
-                                    style: GoogleFonts.poppins().copyWith(
-                                        color: '444444'.toColor(),
-                                        fontSize: 14),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    height: 30,
-                                    width: 180,
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            bottom: 5, left: 10),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: 'AAAAAA'.toColor(),
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: 'AAAAAA'.toColor(),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 16),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Email',
                               style: GoogleFonts.poppins().copyWith(
-                                  color: '444444'.toColor(), fontSize: 14),
+                                  color: '444444'.toColor(),
+                                  fontSize: 14),
                             ),
                             SizedBox(height: 5),
                             Container(
                               height: 30,
-                              width: 180,
+                              width: 300,
                               child: TextFormField(
                                 decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(bottom: 5, left: 10),
+                                  contentPadding: EdgeInsets.only(
+                                      bottom: 5, left: 10),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       width: 1,
@@ -227,12 +152,12 @@ class _signupState extends State<signup> {
                             SizedBox(height: 5),
                             Container(
                               height: 30,
-                              width: 180,
+                              width: 300,
                               child: TextFormField(
                                 obscureText: _obsecureText,
                                 decoration: InputDecoration(
                                   contentPadding:
-                                      EdgeInsets.only(bottom: 5, left: 10),
+                                  EdgeInsets.only(bottom: 5, left: 10),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       width: 1,
@@ -262,34 +187,69 @@ class _signupState extends State<signup> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Row(
-                              children: [
-                                Transform.scale(
-                                  alignment: Alignment.centerLeft,
-                                  scale: 0.70,
-                                  child: Switch.adaptive(
-                                    activeColor: '4DA934'.toColor(),
-                                    activeTrackColor: Colors.green,
-                                    value: value,
-                                    onChanged: (value) => setState(() {
-                                      this.value = value;
-                                    }),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 300,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        padding: EdgeInsets.zero,
+                                        child: Checkbox(
+                                            activeColor: '04276F'.toColor(),
+                                            value: isCheked1,
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                isCheked1 = value!;
+                                              });
+                                            }),
+                                      ),
+                                      Text(
+                                        'Ingat saya',
+                                        style: GoogleFonts.poppins().copyWith(
+                                            color: '444444'.toColor(), fontSize: 10),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                // SizedBox(width: 5),
-                                Text(
-                                  'saya setuju dengan persyaratan',
-                                  style: GoogleFonts.poppins().copyWith(
-                                      color: '444444'.toColor(), fontSize: 10),
-                                ),
-                              ],
+                                  Row(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        padding: EdgeInsets.zero,
+                                        child: Checkbox(
+                                            activeColor: '04276F'.toColor(),
+                                            value: isCheked2,
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                isCheked2 = value!;
+                                              });
+                                            }),
+                                      ),
+                                      Text(
+                                        'Masuk sebagai Guest',
+                                        style: GoogleFonts.poppins().copyWith(
+                                            color: '444444'.toColor(), fontSize: 10),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                             SizedBox(height: 30),
                             ElevatedButton(
                               style: style,
-                              onPressed: () {},
-                              child: const Text('Buat akun'),
+                              onPressed: () {
+                                Get.to(home());
+                              },
+                              child: const Text('Masuk'),
                             ),
                             SizedBox(height: 30),
                             Container(
@@ -307,7 +267,7 @@ class _signupState extends State<signup> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Sudah memiliki akun ? ',
+                                  'Belum punya akun ? ',
                                   style: GoogleFonts.poppins().copyWith(
                                     fontSize: 10,
                                     color: '767676'.toColor(),
@@ -315,11 +275,11 @@ class _signupState extends State<signup> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(signin());
+                                    Get.to(signup());
                                   },
                                   child: Container(
                                     color: Colors.white,
-                                    child: Text('Login Sekarang',
+                                    child: Text('Daftar Sekarang',
                                       style: GoogleFonts.poppins().copyWith(
                                         fontSize: 10,
                                         color: '3D93F9'.toColor(),
