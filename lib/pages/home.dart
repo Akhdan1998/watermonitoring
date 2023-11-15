@@ -11,8 +11,41 @@ class _homeState extends State<home> {
   String? button = '1';
   PageController pageController = PageController(initialPage: 0);
   int pageChanged = 0;
-  final dateFrom = TextEditingController();
-  final dateTo = TextEditingController();
+  DateTime selectedDate1 = DateTime.now();
+  DateTime selectedDate2 = DateTime.now();
+  DateTime? _selectedDay1;
+  DateTime? _selectedDay2;
+  CalendarFormat _calenderFormat1 = CalendarFormat.month;
+  CalendarFormat _calenderFormat2 = CalendarFormat.month;
+  bool date = false;
+  void _onDaySelected1(DateTime day1, DateTime focusedDay1) {
+    if (!isSameDay(_selectedDay1, day1)) {
+      setState(() {
+        _selectedDay1 = day1;
+        selectedDate1 = focusedDay1;
+      });
+    }
+  }
+  void _onDaySelected2(DateTime day2, DateTime focusedDay2) {
+    if (!isSameDay(_selectedDay2, day2)) {
+      setState(() {
+        _selectedDay2 = day2;
+        selectedDate2 = focusedDay2;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDay1 = selectedDate1;
+    _selectedDay2 = selectedDate2;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -527,7 +560,7 @@ class _homeState extends State<home> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Container(
-                          height: MediaQuery.of(context).size.height + 200,
+                          height: MediaQuery.of(context).size.height + 800,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -570,8 +603,9 @@ class _homeState extends State<home> {
                                   ),
                                   color: Colors.white,
                                 ),
-                                width: MediaQuery.of(context).size.width - 600,
-                                height: 161,
+                                width: MediaQuery.of(context).size.width - 500,
+                                // width: MediaQuery.of(context).size.width,
+                                // height: 161,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -590,7 +624,7 @@ class _homeState extends State<home> {
                                     SizedBox(height: 20),
                                     Row(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
@@ -607,48 +641,88 @@ class _homeState extends State<home> {
                                                           '444444'.toColor()),
                                             ),
                                             SizedBox(height: 8),
-                                            Container(
-                                              width: 320,
-                                              height: 35,
-                                              child: TextFormField(
-                                                controller: dateFrom,
-                                                onTap: () async {
-                                                  DateTime? pickeddate =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                      DateTime.now(),
-                                                      firstDate: DateTime(1945),
-                                                      lastDate: DateTime(2500));
-
-                                                  if (pickeddate != null) {
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
                                                     setState(() {
-                                                      dateFrom.text =
-                                                          DateFormat('dd-MM-yyyy')
-                                                              .format(pickeddate);
+                                                      date = !date;
                                                     });
-                                                  }
-                                                },
-                                                decoration: InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          bottom: 5, left: 10),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      width: 1,
-                                                      color: 'AAAAAA'.toColor(),
+                                                  },
+                                                  child: Container(
+                                                    width: 320,
+                                                    padding: EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: 'AAAAAA'.toColor(),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      width: 1,
-                                                      color: 'AAAAAA'.toColor(),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(selectedDate1
+                                                            .toString()
+                                                            .split(' ')[0]),
+                                                        (date == false) ? Icon(Icons
+                                                            .arrow_drop_down) : Icon(Icons
+                                                            .arrow_drop_up),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
-                                              ),
+                                                SizedBox(height: 10),
+                                                (date == false) ? Container() : Container(
+                                                  decoration: BoxDecoration(
+                                                    // color: Colors.red,
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        8),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: 'AAAAAA'.toColor(),
+                                                    ),
+                                                  ),
+                                                  width: 350,
+                                                  child: TableCalendar(
+                                                    calendarFormat: _calenderFormat1,
+                                                    headerStyle: HeaderStyle(
+                                                        formatButtonVisible:
+                                                            false,
+                                                        titleCentered: true),
+                                                    availableGestures:
+                                                        AvailableGestures.all,
+                                                    rowHeight: 35,
+                                                    focusedDay: selectedDate1,
+                                                    firstDay: DateTime(1945),
+                                                    lastDay: DateTime(2500),
+                                                    calendarStyle: CalendarStyle(
+                                                      outsideDaysVisible: false,
+                                                    ),
+                                                    onFormatChanged: (format) {
+                                                      setState(() {
+                                                        _calenderFormat1 = format;
+                                                      });
+                                                    },
+                                                    onDaySelected:
+                                                        _onDaySelected1,
+                                                    selectedDayPredicate:
+                                                        (day) => isSameDay(
+                                                            day, selectedDate1),
+                                                    onPageChanged: (focusedDay) {
+                                                      selectedDate1 = focusedDay;
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -665,67 +739,128 @@ class _homeState extends State<home> {
                                                           '444444'.toColor()),
                                             ),
                                             SizedBox(height: 8),
-                                            Container(
-                                              width: 320,
-                                              height: 35,
-                                              child: TextFormField(
-                                                controller: dateTo,
-                                                onTap: () async {
-                                                  DateTime? pickeddate =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                      DateTime.now(),
-                                                      firstDate: DateTime(1945),
-                                                      lastDate: DateTime(2500));
-
-                                                  if (pickeddate != null) {
-                                                    setState(() {
-                                                      dateTo.text =
-                                                          DateFormat('dd-MM-yyyy')
-                                                              .format(pickeddate);
-                                                    });
-                                                  }
-                                                },
-                                                decoration: InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          bottom: 5, left: 10),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          date = !date;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        width: 320,
+                                                        padding: EdgeInsets.all(5),
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                          border: Border.all(
+                                                            width: 1,
+                                                            color: 'AAAAAA'.toColor(),
+                                                          ),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Text(selectedDate2
+                                                                .toString()
+                                                                .split(' ')[0]),
+                                                            (date == false) ? Icon(Icons
+                                                                .arrow_drop_down) : Icon(Icons
+                                                                .arrow_drop_up),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 50),
+                                                    Container(
+                                                      padding:
+                                                      EdgeInsets.fromLTRB(25, 7, 25, 7),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.circular(5),
+                                                        color: '488A99'.toColor(),
+                                                      ),
+                                                      child: Text(
+                                                        'Submit',
+                                                        style: GoogleFonts.poppins()
+                                                            .copyWith(
+                                                            fontSize: 14,
+                                                            color: Colors.white),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 10),
+                                                (date == false) ? Container() : Container(
+                                                  decoration: BoxDecoration(
+                                                    // color: Colors.red,
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        8),
+                                                    border: Border.all(
                                                       width: 1,
                                                       color: 'AAAAAA'.toColor(),
                                                     ),
                                                   ),
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      width: 1,
-                                                      color: 'AAAAAA'.toColor(),
+                                                  width: 350,
+                                                  child: TableCalendar(
+                                                    calendarFormat: _calenderFormat2,
+                                                    headerStyle: HeaderStyle(
+                                                        formatButtonVisible:
+                                                        false,
+                                                        titleCentered: true),
+                                                    availableGestures:
+                                                    AvailableGestures.all,
+                                                    rowHeight: 35,
+                                                    focusedDay: selectedDate2,
+                                                    firstDay: DateTime(1945),
+                                                    lastDay: DateTime(2500),
+                                                    calendarStyle: CalendarStyle(
+                                                      outsideDaysVisible: false,
                                                     ),
+                                                    onFormatChanged: (format) {
+                                                      setState(() {
+                                                        _calenderFormat2 = format;
+                                                      });
+                                                    },
+                                                    onDaySelected:
+                                                    _onDaySelected2,
+                                                    selectedDayPredicate:
+                                                        (day) => isSameDay(
+                                                        day, selectedDate2),
+                                                    onPageChanged: (focusedDay) {
+                                                      selectedDate2 = focusedDay;
+                                                    },
                                                   ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          padding:
-                                              EdgeInsets.fromLTRB(25, 7, 25, 7),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: '488A99'.toColor(),
-                                          ),
-                                          child: Text(
-                                            'Submit',
-                                            style: GoogleFonts.poppins()
-                                                .copyWith(
-                                                    fontSize: 14,
-                                                    color: Colors.white),
-                                          ),
-                                        ),
+                                        // Container(
+                                        //   padding:
+                                        //       EdgeInsets.fromLTRB(25, 7, 25, 7),
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius:
+                                        //         BorderRadius.circular(5),
+                                        //     color: '488A99'.toColor(),
+                                        //   ),
+                                        //   child: Text(
+                                        //     'Submit',
+                                        //     style: GoogleFonts.poppins()
+                                        //         .copyWith(
+                                        //             fontSize: 14,
+                                        //             color: Colors.white),
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                   ],
