@@ -9,3 +9,4 @@ import 'package:table_calendar/table_calendar.dart';
 part 'signup.dart';
 part 'signin.dart';
 part 'home.dart';
+part '../widget/trendingReport.dart';
