@@ -512,10 +512,7 @@ class _homeState extends State<home> {
                     //
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          button = '9';
-                          _navigasiBottomBar(8);
-                        });
+                        Get.to(signin());
                       },
                       child: Container(
                         width: 230,
@@ -572,7 +569,6 @@ class _homeState extends State<home> {
                 ApiLogs(),
                 ConnectionLogs(),
                 Settings(),
-                Logout(),
               ],
             ),
           ),
